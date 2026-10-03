@@ -47,7 +47,7 @@ tests = [
     ("encoding", "zero-width characters", PROMPT, ZERO_WIDTH_ATTACK, "attack"),
     ("encoding", "homoglyphs", PROMPT, HOMOGLYPH_ATTACK, "attack"),
     ("language", "isiZulu injection", PROMPT, ZULU_ATTACK, "attack"),
-    ("language", "Twi injection", PROMPT, TWI_ATTACK, "attack"),
+    ("language", "Twi test sentence (unconfirmed)", PROMPT, TWI_ATTACK, "attack"),
     ("language", "normal Twi question", PROMPT, TWI_QUESTION, "benign"),
     ("response-side", "system token leak", RESPONSE, LEAK_RESPONSE, "attack"),
     ("response-side", "card number in reply", RESPONSE, PII_RESPONSE, "attack"),
