@@ -23,6 +23,13 @@ LLM_API_KEY = os.environ.get("LLM_API_KEY", "")
 LLM_BASE_URL = os.environ.get("LLM_BASE_URL", "https://api.openai.com/v1")
 LLM_MODEL = os.environ.get("LLM_MODEL", "gpt-4o-mini")
 
+# When the language layer translates a message to English before the Guard sees it.
+#   always  translate every message (safest, the default)
+#   auto    skip messages that already look like plain English (faster, but an
+#           attacker could pad a foreign-language attack with English words)
+#   off     never translate (the Guard on its own, used for before and after demos)
+TRANSLATE_MODE = os.environ.get("TRANSLATE_MODE", "always").strip().lower()
+
 
 def require(*names):
     # Return the names of any settings that are not set, so callers can tell the
