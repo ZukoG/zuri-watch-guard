@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Zuri Watch</title>
+  <meta name="description" content="A guarded LLM assistant that checks every message and reply, in any language, and refuses to fail open.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><path d='M16 2 4 7v8c0 7.5 5.1 13.4 12 15 6.9-1.6 12-7.5 12-15V7z' fill='%234ade80'/></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+        "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+      }
+    }
+  </script>
+</head>
+<body>
+  <canvas id="scene" aria-hidden="true"></canvas>
+  <div class="vignette" aria-hidden="true"></div>
+
+  <main class="shell">
+    <header class="hero">
+      <div class="brand">
+        <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true">
+          <path d="M16 2 4 7v8c0 7.5 5.1 13.4 12 15 6.9-1.6 12-7.5 12-15V7z" />
+          <path class="tick" d="m11 16 3.5 3.5L21 13" />
+        </svg>
+        <span>Zuri Watch</span>
+        <span id="mode-badge" class="badge" hidden></span>
+      </div>
+      <h1>Every message checked.<br><span class="accent">In any language.</span> Never fails open.</h1>
+      <p class="lede">A guarded assistant built around the SecureAI Guard. Each message is cleaned, translated and checked before the model sees it, and each reply is checked again before you do.</p>
+      <ul class="pills" aria-label="What the layer adds">
+        <li><span class="dot"></span>Language layer</li>
+        <li><span class="dot"></span>Fail closed</li>
+        <li><span class="dot"></span>Canary check</li>
+        <li><span class="dot"></span>Normaliser</li>
+      </ul>
+    </header>
+
+    <section class="console glass" aria-label="Send a message">
+      <div id="notice" class="notice" hidden></div>
+
+      <form id="form" autocomplete="off">
+        <label for="message" class="sr-only">Your message</label>
+        <textarea id="message" rows="3" maxlength="2000" placeholder="Ask something, or try to trick it..."></textarea>
+
+        <div class="controls">
+          <div class="segmented" role="radiogroup" aria-label="Protection mode">
+            <label><input type="radio" name="mode" value="full" checked><span>Full protection</span></label>
+            <label><input type="radio" name="mode" value="guard"><span>Guard only</span></label>
+            <label><input type="radio" name="mode" value="compare"><span>Compare</span></label>
+          </div>
+          <button id="send" type="submit" class="send">
+            <span class="send-label">Send</span>
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
+          </button>
+        </div>
+      </form>
+
+      <div class="examples">
+        <span class="examples-label">Try one:</span>
+        <div id="examples" class="chips"></div>
+      </div>
+    </section>
+
+    <section id="results" class="results" aria-live="polite"></section>
+
+    <footer class="foot">
+      <span>SecureAI Hackathon 2026 · CAIRLab-KNUST</span>
+      <span class="muted">We'd rather report an honest "unconfirmed" than an impressive claim we can't prove.</span>
+    </footer>
+  </main>
+
+  <template id="run-template">
+    <article class="run glass">
+      <header class="run-head">
+        <span class="run-mode"></span>
+        <span class="run-time"></span>
+      </header>
+      <ol class="steps"></ol>
+      <div class="verdict" hidden></div>
+    </article>
+  </template>
+
+  <script type="module" src="scene.js"></script>
+  <script type="module" src="app.js"></script>
+</body>
+</html>

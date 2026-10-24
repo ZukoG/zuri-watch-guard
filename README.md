@@ -123,6 +123,8 @@ flowchart TD
 | `guard.py` | Talks to the SecureAI Guard. Spaces calls out, retries once if rate limited. |
 | `llm.py` | Talks to the language model (replies and translation). |
 | `probe.py` | Our testing tool. Sends the test set and reports what gets through. |
+| `server.py` | Serves the web front-end and runs messages through the layer. |
+| `web/` | The front-end page, styles, and 3D background. |
 | `config.py` | Reads settings from `.env`. |
 | `tests/test_layer.py` | Offline tests for the layer. |
 | `.env.example` | Template for your settings file. |
@@ -243,6 +245,8 @@ A good token shows your team name, for example:
 | `py pipeline.py --compare "message"` | Guard alone, then full protection | A few calls |
 | `py pipeline.py --compare` | The 4 built-in examples, both ways ⭐ | ~20 calls |
 | `py pipeline.py` | The 4 built-in examples, full protection only | ~12 calls |
+| `py server.py --demo` | Web front-end with a simulated Guard and LLM | None |
+| `py server.py` | Web front-end, real Guard and LLM | A few calls per message |
 | `py probe.py` | Full test set against the Guard alone | 14 calls |
 | `py probe.py --with-layer` | Full test set with our layer | ~30 calls |
 | `py probe.py --compare` | Full test set, both ways, side by side | ~45 calls |
@@ -297,6 +301,17 @@ py pipeline.py --compare
 This is the quickest way to show the whole system working.
 
 </details>
+
+### `server.py`: the web front-end
+
+```bash
+py server.py --demo   # simulated Guard and LLM, no token, key or quota
+py server.py          # the real Guard and LLM, settings from .env
+```
+
+Then open http://127.0.0.1:8000. Type a message (or pick one of the built-in examples), choose **Full protection**, **Guard only** or **Compare**, and the page shows every check the message went through, step by step. The animated background is the system itself: harmless messages pass through the shield, attacks bounce off it, and the shield flashes red or green with each real verdict.
+
+The page goes through `layer.py` exactly like `pipeline.py` does, uses only the Python standard library (Three.js loads from a CDN in the browser), and only listens on your own machine, since the server holds the team token.
 
 ### `probe.py`: the testing tool
 
